@@ -1,6 +1,6 @@
 # Evo-2 Runtime Set Up Logs
 
-## 1) Model fetch & cache
+## Model fetch & cache
 
 * ```httpx – HTTP Request: GET https://huggingface.co/...```
 
