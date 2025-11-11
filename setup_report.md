@@ -1,12 +1,12 @@
-## Evo-2 Runtime Set Up Logs
+# Evo-2 Runtime Set Up Logs
 
-# 1) Model fetch & cache
+## 1) Model fetch & cache
 
 * ```httpx – HTTP Request: GET https://huggingface.co/...```
 
 First run only. Downloads the model files (```evo2_7b.pt```, ``config.json``, etc.) to the container’s Hugging Face cache (we mounted ``/opt/hf-cache``). Subsequent runs hit the local cache.
 
-# Architecture printout
+## Architecture printout
 
 * ``Initializing StripedHyena with config: {...}``
 
@@ -24,7 +24,7 @@ First run only. Downloads the model files (```evo2_7b.pt```, ``config.json``, et
 
   * ``max_seqlen``: maximum tokens the runtime is configured to handle in one pass.
 
-# Device placement
+## Device placement
 
 * ``Distributing across 1 GPUs, approximately 32 layers per GPU``
 
@@ -36,7 +36,7 @@ You have a single GPU (L40S). All 32 blocks go to cuda:0.
 
 A per-block placement + parameter count sanity check. Confirms everything is resident on the GPU and helps spot partial loads.
 
-# Weight layout tweaks & workspaces
+## Weight layout tweaks & workspaces
 
 * ``Initialized model``
 All tensors constructed and moved to the GPU.
@@ -47,7 +47,7 @@ One-time layout transformation to make Q/K/V projections contiguous for the fuse
 * ``Fixup applied: Allocating cuBLAS workspace for device=0``
 Reserves CUDA work buffers used by GEMMs. Normal.
 
-# Inference parameters and tests
+## Inference parameters and tests
 
 * ``Initializing inference params with max_seqlen=...``
 Builds the runtime state (KV cache shapes, sampler buffers, etc.) sized to your request.
@@ -62,7 +62,7 @@ The test harness runs quick generation and scoring passes.
 * ``Test Results: % Matching Nucleotides: 89.5 | Test Passed: Score matches expected ...``
 A deterministic check that your stack (CUDA/FlashAttention/Transformer-Engine) is wired correctly. Passing means you’re good.
 
-# “Extra keys” and other benign messages
+## “Extra keys” and other benign messages
 
 * ``Extra keys in state_dict: {...}``
 **Safe to ignore;** checkpoints often contain auxiliary tensors the runtime doesn’t need.
