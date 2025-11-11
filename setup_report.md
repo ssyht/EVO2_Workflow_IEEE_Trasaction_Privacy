@@ -70,7 +70,7 @@ A deterministic check that your stack (CUDA/FlashAttention/Transformer-Engine) i
 * ``UserWarning: Casting complex values to real discards the imaginary part``
 Harmless internal cast during kernel setup. Doesn’t affect outputs.
 
-# (From earlier) shared-memory notice
+## (From earlier) shared-memory notice
 
 * ``NOTE: The SHMEM allocation limit is set to the default of 64MB ...``
 That’s the container warning. We solved it by running with ``--ipc=host`` (or ``--shm-size=2g``) and raising ulimits.
